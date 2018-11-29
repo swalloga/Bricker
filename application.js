@@ -43,7 +43,7 @@ document.addEventListener("keyup", keyUpHandler, false);
 gameOverNotify.addEventListener("click", function() {
   document.location.reload();
 });
-
+document.addEventListener("mousemove", mouseMoveHandler, false);
 
 function keyDownHandler(e) {
   if (e.keyCode === 39 ) {
@@ -59,6 +59,13 @@ function keyUpHandler(e) {
   } else if (e.keyCode === 37) {
     leftPressed = false;
   }
+}
+
+function mouseMoveHandler(e) {
+    let relativeX = e.clientX - canvas.offsetLeft;
+    if(relativeX > 0 && relativeX < canvas.width) {
+        paddleX = relativeX - paddleWidth/2;
+    }
 }
 
 function drawball() {
