@@ -1,10 +1,8 @@
 const canvas = document.getElementById("myCanvas");
 const ctx = canvas.getContext("2d");
 
-let gameOverNotify = document.querySelector('.game-over-notify');
-let interval;
-
 let score = 0;
+let lives = 3;
 
 // define ball movement
 let dx = 2;
@@ -40,9 +38,6 @@ for (let c = 0; c < brickColumnCount; c++) {
 
 document.addEventListener("keydown", keyDownHandler, false);
 document.addEventListener("keyup", keyUpHandler, false);
-gameOverNotify.addEventListener("click", function() {
-  document.location.reload();
-});
 document.addEventListener("mousemove", mouseMoveHandler, false);
 
 function keyDownHandler(e) {
@@ -107,7 +102,7 @@ function collisionDetection() {
     for (let r = 0; r < brickRowCount; r++) {
       let b = bricks[c][r];
       if(b.status === 1) {
-        if(x > b.x && x < b.x+brickWidth && y > b.y && y < b.y+brickHeight) {
+        if(x > b.x - ballRadius && x < b.x+brickWidth + ballRadius && y > b.y - ballRadius && y < b.y+brickHeight + ballRadius) {
             dy = -dy;
             b.status = 0;
             score++;
@@ -127,6 +122,12 @@ function drawScore() {
   ctx.fillText("Points: "+score, 8, 20);
 }
 
+function drawLives() {
+    ctx.font = "16px Arial";
+    ctx.fillStyle = "#0095DD";
+    ctx.fillText("Lives: "+lives, canvas.width-65, 20);
+}
+
 function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   drawBricks();
@@ -134,6 +135,9 @@ function draw() {
   drawPaddle();
   collisionDetection();
   drawScore();
+  drawLives();
+  requestAnimationFrame(draw);
+
 
   // make ball bounce off sides of canvas
   if (x - ballRadius + dx < 0 || x + ballRadius + dx > canvas.width) {
@@ -146,9 +150,17 @@ function draw() {
     if (x > paddleX && x < paddleX + paddleWidth) {
       dy = -dy;
     } else {
-      gameOverNotify.style.display = 'flex';
-      clearInterval(interval);
-      return;
+      if (!lives) {
+        alert("GAME OVER");
+        document.location.reload();
+      } else {
+          x = canvas.width/2;
+          y = canvas.height-30;
+          dx = 2;
+          dy = -2;
+          paddleX = (canvas.width-paddleWidth)/2;
+          lives -= 1;
+      }
     }
   }
 
@@ -163,4 +175,4 @@ function draw() {
 }
 
 
-interval = setInterval(draw, 10);
+draw();
