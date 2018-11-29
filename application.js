@@ -4,6 +4,8 @@ const ctx = canvas.getContext("2d");
 let gameOverNotify = document.querySelector('.game-over-notify');
 let interval;
 
+let score = 0;
+
 // define ball movement
 let dx = 2;
 let dy = -2;
@@ -101,10 +103,21 @@ function collisionDetection() {
         if(x > b.x && x < b.x+brickWidth && y > b.y && y < b.y+brickHeight) {
             dy = -dy;
             b.status = 0;
+            score++;
+            if (score === brickRowCount * brickColumnCount) {
+              alert("It's Lit. Your bricker game is fire.");
+              document.location.reload();
+            }
         }
       }
     }
   }
+}
+
+function drawScore() {
+  ctx.font = "16px Arial";
+  ctx.fillStyle = "#0095DD";
+  ctx.fillText("Points: "+score, 8, 20);
 }
 
 function draw() {
@@ -113,6 +126,7 @@ function draw() {
   drawball();
   drawPaddle();
   collisionDetection();
+  drawScore();
 
   // make ball bounce off sides of canvas
   if (x - ballRadius + dx < 0 || x + ballRadius + dx > canvas.width) {
