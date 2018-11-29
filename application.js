@@ -1,5 +1,6 @@
 const canvas = document.getElementById("myCanvas");
 const ctx = canvas.getContext("2d");
+const playButton = document.getElementById("play-button");
 
 let score = 0;
 let lives = 3;
@@ -39,6 +40,7 @@ for (let c = 0; c < brickColumnCount; c++) {
 document.addEventListener("keydown", keyDownHandler, false);
 document.addEventListener("keyup", keyUpHandler, false);
 document.addEventListener("mousemove", mouseMoveHandler, false);
+playButton.addEventListener("click", draw, false);
 
 function keyDownHandler(e) {
   if (e.keyCode === 39 ) {
@@ -129,6 +131,7 @@ function drawLives() {
 }
 
 function draw() {
+  playButton.style.display = "none";
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   drawBricks();
   drawball();
@@ -153,6 +156,7 @@ function draw() {
       if (!lives) {
         alert("GAME OVER");
         document.location.reload();
+        playButton.style.display = "block";
       } else {
           x = canvas.width/2;
           y = canvas.height-30;
@@ -173,6 +177,3 @@ function draw() {
   x += dx;
   y += dy;
 }
-
-
-draw();
