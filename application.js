@@ -15,7 +15,7 @@ let y = canvas.height-30;
 let ballRadius = 10;
 
 const paddleHeight = 10;
-const paddleWidth = 75;
+const paddleWidth = 80;
 let paddleX = (canvas.width - paddleWidth)/2;
 
 let rightPressed = false;
@@ -26,7 +26,7 @@ let brickColumnCount = 5;
 const brickWidth = 75;
 const brickHeight = 20;
 const brickPadding = 10;
-const brickOffsetTop = 30;
+const brickOffsetTop = 50;
 const brickOffsetLeft = 30;
 
 let bricks = [];
@@ -91,7 +91,7 @@ function drawBricks() {
         bricks[c][r].y = brickY;
         ctx.beginPath();
         ctx.rect(brickX, brickY, brickWidth, brickHeight);
-        ctx.fillStyle = "red";
+        ctx.fillStyle = "black";
         ctx.fill();
         ctx.closePath();
       }
@@ -105,13 +105,13 @@ function collisionDetection() {
       let b = bricks[c][r];
       if(b.status === 1) {
         if(x > b.x - ballRadius && x < b.x+brickWidth + ballRadius && y > b.y - ballRadius && y < b.y+brickHeight + ballRadius) {
-            dy = -dy;
-            b.status = 0;
-            score++;
-            if (score === brickRowCount * brickColumnCount) {
-              alert("It's Lit. Your bricker game is fire.");
-              document.location.reload();
-            }
+          dy = -dy + 1;
+          b.status = 0;
+          score++;
+          if (score === brickRowCount * brickColumnCount) {
+            alert("It's Lit. Your bricker game is fire.");
+            document.location.reload();
+          }
         }
       }
     }
@@ -119,15 +119,15 @@ function collisionDetection() {
 }
 
 function drawScore() {
-  ctx.font = "16px Arial";
+  ctx.font = "20px 'ZCOOL KuaiLe', cursive";
   ctx.fillStyle = "#0095DD";
   ctx.fillText("Points: "+score, 8, 20);
 }
 
 function drawLives() {
-    ctx.font = "16px Arial";
-    ctx.fillStyle = "#0095DD";
-    ctx.fillText("Lives: "+lives, canvas.width-65, 20);
+  ctx.font = "20px 'ZCOOL KuaiLe', cursive";
+  ctx.fillStyle = "#0095DD";
+  ctx.fillText("Lives: "+lives, canvas.width-85, 20);
 }
 
 function draw() {
@@ -148,10 +148,11 @@ function draw() {
   }
 
   if (y - ballRadius + dy < 0) {
-    dy = -dy;
+    dy = -dy + 1;
   } else if (y + dy > canvas.height - ballRadius) {
     if (x > paddleX && x < paddleX + paddleWidth) {
       dy = -dy;
+      dx = -dx;
     } else {
       if (!lives) {
         alert("GAME OVER");
