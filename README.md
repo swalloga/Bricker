@@ -1,6 +1,6 @@
 # Bricker
 
-Bricker is a simple brick breaker game built with JavaScript and HTML Canvas.
+[Bricker](http://www.sarahwalloga.com/Bricker/) is a simple brick breaker game built with JavaScript and HTML Canvas.
 
 ## Functionality
 * Paddle can be controlled with mouse movement or arrow keys
