@@ -152,7 +152,6 @@ function draw() {
   } else if (y + dy > canvas.height - ballRadius) {
     if (x > paddleX && x < paddleX + paddleWidth) {
       dy = -dy;
-      dx = -dx;
     } else {
       if (!lives) {
         alert("GAME OVER");
